@@ -1,5 +1,5 @@
 Django Currency Course
-============
+======================
 
 A reusable Django app that track currency courses.
 
@@ -29,15 +29,6 @@ Add ``currency_course`` to your ``INSTALLED_APPS``
         'currency_course',
     )
 
-Add the ``currency_course`` URLs to your ``urls.py``
-
-.. code-block:: python
-
-    urlpatterns = patterns('',
-        ...
-        url(r'^currency-course/', include('currency_course.urls')),
-    )
-
 Before your tags/filters are available in your templates, load them by using
 
 .. code-block:: html
@@ -55,8 +46,64 @@ Don't forget to migrate your database
 Usage
 -----
 
-TODO: Describe usage or point to docs. Also describe available settings and
-templatetags.
+First fill the database with currencies and add your desired courses.
+By default you will have to track the course history by yourself. Check the
+management commands and settings for automated trackings.
+
+Management Commands
+-------------------
+
+track_currency_courses
+^^^^^^^^^^^^^^^^^^^^^^
+
+Run this command to let external services like Google or Yahoo track currency
+rates.
+
+    ./manage.py track_currency_courses
+
+Settings
+--------
+
+CURRENCY_SERVICE
+^^^^^^^^^^^^^^^^
+
+Default = None
+
+By default no external service tracks your course histories.
+The following services are available:
+
+* ``'openexchangerates'``: https://openexchangerates.org/
+* more coming soon...
+
+
+OPENEXCHANGERATES_APP_ID
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default = False
+
+If you want to make use of the ``openexchangerates`` service, make sure to
+register at https://openexchangerates.org/ and provide your App ID.
+
+
+CURRENCY_EMAIL_REPORT
+^^^^^^^^^^^^^^^^^^^^^
+
+Default = False
+
+Enable this settings to receive an email report every time the
+``track_currency_courses`` command was called.
+
+
+Template Tags
+-------------
+
+convert_currency
+^^^^^^^^^^^^^^^^
+
+Convert an amount from one currency to another using the latest history.
+
+    {% load currency_course_tags %}
+    {% convert_currency 2 'EUR' 'SGD' as converted_amount %}
 
 
 Contribute

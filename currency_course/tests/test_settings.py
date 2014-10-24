@@ -2,6 +2,8 @@
 import os
 import logging
 
+from local_settings import *  # flake8: NOQA
+
 DEBUG = True
 
 logging.getLogger("factory").setLevel(logging.WARN)
@@ -40,6 +42,7 @@ COVERAGE_MODULE_EXCLUDES = [
 ]
 
 EXTERNAL_APPS = [
+    'django',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.auth',
@@ -50,6 +53,7 @@ EXTERNAL_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.sites',
     'django_nose',
+    'mailer',
 ]
 
 INTERNAL_APPS = [
@@ -61,3 +65,7 @@ INSTALLED_APPS = EXTERNAL_APPS + INTERNAL_APPS
 COVERAGE_MODULE_EXCLUDES += EXTERNAL_APPS
 
 SECRET_KEY = 'foobar'
+
+# Specific app settings
+CURRENCY_SERVICE = 'openexchangerates'
+FROM_EMAIL = 'info@example.com'

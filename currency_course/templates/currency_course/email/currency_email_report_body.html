@@ -1,0 +1,24 @@
+{% load i18n %}
+<h1>{% trans "Currency exchange email report" %}</h1>
+<p>{% trans "Your courses has just been updated:" %}</p>
+
+<table>
+    <tr>
+        <th>{% trans "From" %}</th>
+        <th>{% trans "To" %}</th>
+        <th>{% trans "Date" %}</th>
+        <th>{% trans "Value" %}</th>
+        <th>{% trans "Trackey by" %}</th>
+    </tr>
+    {% for course in courses %}
+        {% with course.latest as history %}
+            <tr>
+                <td>{{ history.course.from_currency }}</td>
+                <td>{{ history.course.to_currency }}</td>
+                <td>{{ history.date }}</td>
+                <td>{{ history.value }}</td>
+                <td>{{ history.tracked_by }}</td>
+            </tr>
+        {% endwith %}
+    {% endfor %}
+</table>

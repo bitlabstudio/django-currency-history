@@ -34,10 +34,14 @@ import currency_course as app
 
 dev_requires = [
     'flake8',
+    'django-libs',
+    'mailer',
 ]
 
 install_requires = [
-    'django',
+    'django<1.7',
+    'django-libs',
+    'simplejson',
 ]
 
 

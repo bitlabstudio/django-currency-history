@@ -1,0 +1,2 @@
+"""Local settings used to test the ``currency_course`` app."""
+OPENEXCHANGERATES_APP_ID = 'YOUR_APP_ID'
