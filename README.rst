@@ -3,7 +3,7 @@ Django Currency Course
 
 A reusable Django app that track currency courses.
 
-.. image:: https://raw.githubusercontent.com/bitmazk/django-currency-costs/master/admin.png
+.. image:: https://raw.githubusercontent.com/bitmazk/django-currency-course/master/admin.png
 
 Installation
 ------------
