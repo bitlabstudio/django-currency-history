@@ -1,7 +1,7 @@
 from django import template
 from django.utils.translation import ugettext_lazy as _
 
-from ..models import CurrencyCourse
+from ..models import CurrencyRate
 
 
 register = template.Library()
@@ -17,13 +17,13 @@ def convert_currency(amount, from_currency, to_currency):
 
     '''
     try:
-        course = CurrencyCourse.objects.get(
+        rate = CurrencyRate.objects.get(
             from_currency__iso_code=from_currency,
             to_currency__iso_code=to_currency)
-    except CurrencyCourse.DoesNotExist:
+    except CurrencyRate.DoesNotExist:
         return _('n/a')
     try:
-        history = course.history.all()[0]
+        history = rate.history.all()[0]
     except IndexError:
         return _('n/a')
     return amount * history.value

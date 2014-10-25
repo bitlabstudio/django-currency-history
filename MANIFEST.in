@@ -3,7 +3,7 @@ include LICENSE
 include DESCRIPTION
 include CHANGELOG.txt
 include README.md
-graft currency_course
+graft currency_history
 global-exclude *.orig *.pyc *.log *.swp
-prune currency_course/tests/coverage
-prune currency_course/.ropeproject
+prune currency_history/tests/coverage
+prune currency_history/.ropeproject

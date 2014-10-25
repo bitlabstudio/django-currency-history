@@ -1,9 +1,9 @@
-Django Currency Course
-======================
+Django Currency History
+=======================
 
-A reusable Django app that track currency courses.
+A reusable Django app that tracks currency rates.
 
-.. image:: https://raw.githubusercontent.com/bitmazk/django-currency-course/master/admin.png
+.. image:: https://raw.githubusercontent.com/bitmazk/django-currency-history/master/admin.png
 
 Installation
 ------------
@@ -12,56 +12,56 @@ To get the latest stable release from PyPi
 
 .. code-block:: bash
 
-    pip install django-currency-course
+    pip install django-currency-history
 
 To get the latest commit from GitHub
 
 .. code-block:: bash
 
-    pip install -e git+git://github.com/bitmazk/django-currency-course.git#egg=currency_course
+    pip install -e git+git://github.com/bitmazk/django-currency-history.git#egg=currency_history
 
 TODO: Describe further installation steps (edit / remove the examples below):
 
-Add ``currency_course`` to your ``INSTALLED_APPS``
+Add ``currency_history`` to your ``INSTALLED_APPS``
 
 .. code-block:: python
 
     INSTALLED_APPS = (
         ...,
-        'currency_course',
+        'currency_history',
     )
 
 Before your tags/filters are available in your templates, load them by using
 
 .. code-block:: html
 
-	{% load currency_course_tags %}
+	{% load currency_history_tags %}
 
 
 Don't forget to migrate your database
 
 .. code-block:: bash
 
-    ./manage.py migrate currency_course
+    ./manage.py migrate currency_history
 
 
 Usage
 -----
 
-First fill the database with currencies and add your desired courses.
-By default you will have to track the course history by yourself. Check the
+First fill the database with currencies and add your desired rates.
+By default you will have to track the history by yourself. Check the
 management commands and settings for automated trackings.
 
 Management Commands
 -------------------
 
-track_currency_courses
-++++++++++++++++++++++
+track_currency_rates
+++++++++++++++++++++
 
 Run this command to let external services like Google or Yahoo track currency
 rates.
 
-    ./manage.py track_currency_courses
+    ./manage.py track_currency_rates
 
 You might want to run it with a cron job.
 
@@ -73,7 +73,7 @@ CURRENCY_SERVICE
 
 Default = None
 
-By default no external service tracks your course histories.
+By default no external service tracks your rate histories.
 The following services are available:
 
 * ``'openexchangerates'``: https://openexchangerates.org/
@@ -95,7 +95,7 @@ CURRENCY_EMAIL_REPORT
 Default = False
 
 Enable this settings to receive an email report every time the
-``track_currency_courses`` command was called.
+``track_currency_rates`` command was called.
 
 
 Template Tags
@@ -106,7 +106,7 @@ convert_currency
 
 Convert an amount from one currency to another using the latest history.
 
-    {% load currency_course_tags %}
+    {% load currency_history_tags %}
     {% convert_currency 2 'EUR' 'SGD' as converted_amount %}
 
 
@@ -119,7 +119,7 @@ If you want to contribute to this project, please perform the following steps
 
     # Fork this repository
     # Clone your fork
-    mkvirtualenv -p python2.7 django-currency-course
+    mkvirtualenv -p python2.7 django-currency-history
     make develop
 
     git co -b feature_branch master

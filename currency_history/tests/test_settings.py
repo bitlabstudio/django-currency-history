@@ -21,7 +21,7 @@ DATABASES = {
     }
 }
 
-ROOT_URLCONF = 'currency_course.tests.urls'
+ROOT_URLCONF = 'currency_history.tests.urls'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(APP_ROOT, '../app_static')
@@ -57,8 +57,8 @@ EXTERNAL_APPS = [
 ]
 
 INTERNAL_APPS = [
-    'currency_course',
-    'currency_course.tests.test_app',
+    'currency_history',
+    'currency_history.tests.test_app',
 ]
 
 INSTALLED_APPS = EXTERNAL_APPS + INTERNAL_APPS

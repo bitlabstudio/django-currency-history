@@ -1,4 +1,4 @@
-"""Factories for the currency_course app."""
+"""Factories for the currency_history app."""
 import factory
 
 from .. import models
@@ -11,15 +11,15 @@ class CurrencyFactory(factory.DjangoModelFactory):
     title = factory.Sequence(lambda x: u'Currency{}'.format(x))
 
 
-class CurrencyCourseFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = models.CurrencyCourse
+class CurrencyRateFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = models.CurrencyRate
 
     from_currency = factory.SubFactory(CurrencyFactory)
     to_currency = factory.SubFactory(CurrencyFactory)
 
 
-class CurrencyCourseHistoryFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = models.CurrencyCourseHistory
+class CurrencyRateHistoryFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = models.CurrencyRateHistory
 
-    course = factory.SubFactory(CurrencyCourseFactory)
+    rate = factory.SubFactory(CurrencyRateFactory)
     value = 1.61

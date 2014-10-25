@@ -1,4 +1,4 @@
-"""Models for the currency_course app."""
+"""Models for the currency_history app."""
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -41,9 +41,9 @@ class Currency(models.Model):
         return self.iso_code
 
 
-class CurrencyCourse(models.Model):
+class CurrencyRate(models.Model):
     """
-    Connects two currencies to a course.
+    Connects two currencies to a rate.
 
     :from_currency: Currency to convert.
     :to_currency: Currency to be converted to.
@@ -52,13 +52,13 @@ class CurrencyCourse(models.Model):
     from_currency = models.ForeignKey(
         Currency,
         verbose_name=_('From currency'),
-        related_name='courses_from',
+        related_name='rates_from',
     )
 
     to_currency = models.ForeignKey(
         Currency,
         verbose_name=_('To currency'),
-        related_name='courses_to',
+        related_name='rates_to',
     )
 
     class Meta:
@@ -74,19 +74,19 @@ class CurrencyCourse(models.Model):
             return None
 
 
-class CurrencyCourseHistory(models.Model):
+class CurrencyRateHistory(models.Model):
     """
-    Tracks a course status.
+    Tracks a rate status.
 
-    :course: The tracked course.
+    :rate: The tracked rate.
     :date: Date the status was tracked.
     :value: Value of the second currency in relation to the first.
     :tracked_by: Field to track a service or user who added the history.
 
     """
-    course = models.ForeignKey(
-        CurrencyCourse,
-        verbose_name=_('Course'),
+    rate = models.ForeignKey(
+        CurrencyRate,
+        verbose_name=_('Rate'),
         related_name='history',
     )
 
@@ -107,7 +107,7 @@ class CurrencyCourseHistory(models.Model):
     )
 
     class Meta:
-        ordering = ['-date', 'course__to_currency__iso_code']
+        ordering = ['-date', 'rate__to_currency__iso_code']
 
     def __unicode__(self):
-        return u'{} / {}'.format(self.course, self.date)
+        return u'{} / {}'.format(self.rate, self.date)
