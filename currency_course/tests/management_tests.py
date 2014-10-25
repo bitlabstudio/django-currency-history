@@ -26,17 +26,15 @@ class TrackCurrencyCoursesTestCase(TestCase):
             with self.assertRaises(ImproperlyConfigured):
                 call_command('track_currency_courses')
 
-        with self.settings(CURRENCY_SERVICE='foo'):
-            with self.assertRaises(ImproperlyConfigured):
-                call_command('track_currency_courses')
-
-        with self.settings(OPENEXCHANGERATES_APP_ID=None):
-            with self.assertRaises(ImproperlyConfigured):
-                call_command('track_currency_courses')
-
         call_command('track_currency_courses')
         self.assertEqual(CurrencyCourseHistory.objects.count(), 1)
+        self.assertEqual(Message.objects.count(), 1)
 
-        with self.settings(CURRENCY_EMAIL_REPORT=True):
+        with self.settings(CURRENCY_SERVICE='openexchangerates',
+                           OPENEXCHANGERATES_APP_ID=None):
+            with self.assertRaises(ImproperlyConfigured):
+                call_command('track_currency_courses')
+
+        with self.settings(CURRENCY_SERVICE='openexchangerates'):
+            # Don't forget to add your App ID to your local settings
             call_command('track_currency_courses')
-            self.assertEqual(Message.objects.count(), 1)

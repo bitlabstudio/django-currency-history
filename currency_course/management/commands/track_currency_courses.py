@@ -37,19 +37,34 @@ class Command(BaseCommand):
                     value=output_currency_to_usd * usd_to_input_currency,
                     tracked_by='openexchangerates.org',
                 )
-            if getattr(settings, 'CURRENCY_EMAIL_REPORT', False):
-                send_email(
-                    None,
-                    {
-                        'courses': courses,
-                    },
-                    'currency_course/email/currency_email_report_subject.txt',
-                    'currency_course/email/currency_email_report_body.html',
-                    settings.FROM_EMAIL,
-                    [x[1] for x in settings.MANAGERS],
-                )
-                print('Email report sent.')
             print('{} course(s) tracked using "openexchangerates.org".'.format(
                 courses.count()))
-            return
-        raise ImproperlyConfigured('Service misconfigured.')
+        elif settings.CURRENCY_SERVICE == 'yahoo':
+            for course in courses:
+                url = ('https://query.yahooapis.com/v1/public/yql?q=select'
+                       '%20*%20from%20yahoo.finance.xchange%20where%20pair'
+                       '%20in%20(%22{}{}%22)&format=json&env=store%3A%2F%2F'
+                       'datatables.org%2Falltableswithkeys&callback='.format(
+                           course.from_currency.iso_code,
+                           course.to_currency.iso_code))
+                response = urlopen(url).read()
+                result = loads(response)
+                models.CurrencyCourseHistory.objects.create(
+                    course=course,
+                    value=result['query']['results']['rate']['Rate'],
+                    tracked_by='query.yahooapis.com',
+                )
+            print('{} course(s) tracked using "query.yahooapis.com".'.format(
+                courses.count()))
+        if getattr(settings, 'CURRENCY_EMAIL_REPORT', False):
+            send_email(
+                None,
+                {
+                    'courses': courses,
+                },
+                'currency_course/email/currency_email_report_subject.txt',
+                'currency_course/email/currency_email_report_body.html',
+                settings.FROM_EMAIL,
+                [x[1] for x in settings.MANAGERS],
+            )
+            print('Email report sent.')

@@ -54,18 +54,20 @@ Management Commands
 -------------------
 
 track_currency_courses
-^^^^^^^^^^^^^^^^^^^^^^
+++++++++++++++++++++++
 
 Run this command to let external services like Google or Yahoo track currency
 rates.
 
     ./manage.py track_currency_courses
 
+You might want to run it with a cron job.
+
 Settings
 --------
 
 CURRENCY_SERVICE
-^^^^^^^^^^^^^^^^
+++++++++++++++++
 
 Default = None
 
@@ -73,11 +75,11 @@ By default no external service tracks your course histories.
 The following services are available:
 
 * ``'openexchangerates'``: https://openexchangerates.org/
-* more coming soon...
+* ``'yahoo'``: http://finance.yahoo.com/currency-converter/
 
 
 OPENEXCHANGERATES_APP_ID
-^^^^^^^^^^^^^^^^^^^^^^^^
+++++++++++++++++++++++++
 
 Default = False
 
@@ -86,7 +88,7 @@ register at https://openexchangerates.org/ and provide your App ID.
 
 
 CURRENCY_EMAIL_REPORT
-^^^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++++
 
 Default = False
 
@@ -98,7 +100,7 @@ Template Tags
 -------------
 
 convert_currency
-^^^^^^^^^^^^^^^^
+++++++++++++++++
 
 Convert an amount from one currency to another using the latest history.
 

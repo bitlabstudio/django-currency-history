@@ -67,5 +67,6 @@ COVERAGE_MODULE_EXCLUDES += EXTERNAL_APPS
 SECRET_KEY = 'foobar'
 
 # Specific app settings
-CURRENCY_SERVICE = 'openexchangerates'
+CURRENCY_SERVICE = 'yahoo'
 FROM_EMAIL = 'info@example.com'
+CURRENCY_EMAIL_REPORT = True
