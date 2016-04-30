@@ -1,8 +1,10 @@
 """Models for the currency_history app."""
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 
+@python_2_unicode_compatible
 class Currency(models.Model):
     """
     Contains information about one currency.
@@ -37,10 +39,11 @@ class Currency(models.Model):
         self.iso_code = self.iso_code.upper()
         super(Currency, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.iso_code
 
 
+@python_2_unicode_compatible
 class CurrencyRate(models.Model):
     """
     Connects two currencies to a rate.
@@ -64,7 +67,7 @@ class CurrencyRate(models.Model):
     class Meta:
         ordering = ['from_currency__iso_code', 'to_currency__iso_code']
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{} - {}'.format(self.from_currency, self.to_currency)
 
     def latest(self):
@@ -74,6 +77,7 @@ class CurrencyRate(models.Model):
             return None
 
 
+@python_2_unicode_compatible
 class CurrencyRateHistory(models.Model):
     """
     Tracks a rate status.
@@ -109,5 +113,5 @@ class CurrencyRateHistory(models.Model):
     class Meta:
         ordering = ['-date', 'rate__to_currency__iso_code']
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{} / {}'.format(self.rate, self.date)

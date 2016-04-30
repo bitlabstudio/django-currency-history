@@ -32,17 +32,7 @@ from setuptools import setup, find_packages
 import currency_history as app
 
 
-dev_requires = [
-    'flake8',
-    'django-libs',
-    'mailer',
-]
-
-install_requires = [
-    'django<1.7',
-    'django-libs',
-    'simplejson',
-]
+install_requires = open('requirements.txt').read().splitlines()
 
 
 def read(fname):
@@ -65,7 +55,4 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=install_requires,
-    extras_require={
-        'dev': dev_requires,
-    },
 )

@@ -1,13 +1,8 @@
 """Settings that need to be set in order to run the tests."""
 import os
-import logging
 
-from local_settings import *  # flake8: NOQA
 
 DEBUG = True
-
-logging.getLogger("factory").setLevel(logging.WARN)
-
 SITE_ID = 1
 
 APP_ROOT = os.path.abspath(
@@ -30,16 +25,26 @@ STATICFILES_DIRS = (
     os.path.join(APP_ROOT, 'static'),
 )
 
-TEMPLATE_DIRS = (
-    os.path.join(APP_ROOT, 'tests/test_app/templates'),
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
 )
 
-COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(
-    os.path.join(APP_ROOT, 'tests/coverage'))
-COVERAGE_MODULE_EXCLUDES = [
-    'tests$', 'settings$', 'urls$', 'locale$',
-    'migrations', 'fixtures', 'admin$', 'django_extensions',
-]
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
+    'DIRS': [os.path.join(APP_ROOT, 'tests/test_app/templates')],
+    'OPTIONS': {
+        'context_processors': (
+            'django.contrib.auth.context_processors.auth',
+            'django.template.context_processors.request',
+        )
+    }
+}]
 
 EXTERNAL_APPS = [
     'django',
@@ -52,8 +57,6 @@ EXTERNAL_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'django.contrib.sites',
-    'django_nose',
-    'mailer',
 ]
 
 INTERNAL_APPS = [
@@ -62,11 +65,13 @@ INTERNAL_APPS = [
 ]
 
 INSTALLED_APPS = EXTERNAL_APPS + INTERNAL_APPS
-COVERAGE_MODULE_EXCLUDES += EXTERNAL_APPS
 
 SECRET_KEY = 'foobar'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Specific app settings
 CURRENCY_SERVICE = 'yahoo'
 FROM_EMAIL = 'info@example.com'
 CURRENCY_EMAIL_REPORT = True
+OPENEXCHANGERATES_APP_ID = 'foo'

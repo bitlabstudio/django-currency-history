@@ -2,9 +2,9 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.management.base import BaseCommand
 
-from django_libs.utils_email import send_email
+from django_libs.utils.email import send_email
+import requests
 from simplejson import loads
-from urllib2 import urlopen
 
 from ... import models
 
@@ -24,8 +24,8 @@ class Command(BaseCommand):
                     'Setting OPENEXCHANGERATES_APP_ID not set.')
             url = 'http://openexchangerates.org/latest.json?app_id={}'.format(
                 settings.OPENEXCHANGERATES_APP_ID)
-            response = urlopen(url).read()
-            result = loads(response)
+            response = requests.get(url)
+            result = loads(response.content)
             for rate in rates:
                 # Base rate is always USD
                 output_currency_to_usd = 1 / result['rates'][
@@ -47,8 +47,8 @@ class Command(BaseCommand):
                        'datatables.org%2Falltableswithkeys&callback='.format(
                            rate.from_currency.iso_code,
                            rate.to_currency.iso_code))
-                response = urlopen(url).read()
-                result = loads(response)
+                response = requests.get(url)
+                result = loads(response.content)
                 models.CurrencyRateHistory.objects.create(
                     rate=rate,
                     value=result['query']['results']['rate']['Rate'],
