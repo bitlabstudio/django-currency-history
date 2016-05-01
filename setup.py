@@ -22,9 +22,6 @@ from setuptools import setup, find_packages
 import currency_history as app
 
 
-install_requires = open('requirements.txt').read().splitlines()
-
-
 def read(fname):
     try:
         return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -44,5 +41,11 @@ setup(
     url="https://github.com/bitmazk/django-currency-history",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=install_requires,
+    install_requires=[
+        'django',
+        'django-libs',
+        'simplejson',
+        'requests',
+        'beautifulsoup4',
+    ],
 )
