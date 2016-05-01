@@ -1,4 +1,6 @@
-=== ongoing ===
+=== ongoing (0.2.x) ===
+
+- removed unnecessary files
 
 === 0.2 ===
 

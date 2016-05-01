@@ -4,6 +4,7 @@
 *coverage/
 db.sqlite
 dist/
+build/
 docs/_build/
 app_media/
 app_static/
