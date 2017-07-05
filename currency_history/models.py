@@ -34,6 +34,8 @@ class Currency(models.Model):
 
     class Meta:
         ordering = ['iso_code']
+        verbose_name = _('Currency')
+        verbose_name_plural = _('Currencies')
 
     def save(self, *args, **kwargs):
         self.iso_code = self.iso_code.upper()
@@ -66,6 +68,8 @@ class CurrencyRate(models.Model):
 
     class Meta:
         ordering = ['from_currency__iso_code', 'to_currency__iso_code']
+        verbose_name = _('Currency rate')
+        verbose_name_plural = _('Currency rates')
 
     def __str__(self):
         return u'{} - {}'.format(self.from_currency, self.to_currency)
@@ -112,6 +116,8 @@ class CurrencyRateHistory(models.Model):
 
     class Meta:
         ordering = ['-date', 'rate__to_currency__iso_code']
+        verbose_name = _('Currency rate history')
+        verbose_name_plural = _('Currency rate history')
 
     def __str__(self):
         return u'{} / {}'.format(self.rate, self.date)
