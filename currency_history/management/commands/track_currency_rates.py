@@ -54,8 +54,19 @@ class Command(BaseCommand):
                     value=result['query']['results']['rate']['Rate'],
                     tracked_by='query.yahooapis.com',
                 )
-            print('{} rate(s) tracked using "query.yahooapis.com".'.format(
-                rates.count()))
+        elif settings.CURRENCY_SERVICE == 'fixer':
+            for rate in rates:
+                url = 'http://api.fixer.io/latest?base={}&symbols={}'.format(
+                    rate.from_currency.iso_code,
+                    rate.to_currency.iso_code)
+                response = requests.get(url)
+                result = loads(response.content)
+                models.CurrencyRateHistory.objects.create(
+                    rate=rate,
+                    value=result['rates'][rate.to_currency.iso_code],
+                    tracked_by='fixer.io',
+                )
+            print('{} rate(s) tracked using "fixer.io".'.format(rates.count()))
         if getattr(settings, 'CURRENCY_EMAIL_REPORT', False):
             send_email(
                 None,

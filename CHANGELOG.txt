@@ -1,6 +1,7 @@
 === ongoing (0.2.x) ===
 
 - removed unnecessary files
+- added fixer.io support
 
 === 0.2 ===
 

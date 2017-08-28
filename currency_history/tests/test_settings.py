@@ -71,7 +71,7 @@ SECRET_KEY = 'foobar'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Specific app settings
-CURRENCY_SERVICE = 'yahoo'
+CURRENCY_SERVICE = 'fixer'
 FROM_EMAIL = 'info@example.com'
 CURRENCY_EMAIL_REPORT = True
 OPENEXCHANGERATES_APP_ID = 'foo'

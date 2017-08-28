@@ -58,7 +58,7 @@ Management Commands
 track_currency_rates
 ++++++++++++++++++++
 
-Run this command to let external services like Google or Yahoo track currency
+Run this command to let external services like fixer.io or Yahoo track currency
 rates.
 
     ./manage.py track_currency_rates
@@ -76,6 +76,7 @@ Default = None
 By default no external service tracks your rate histories.
 The following services are available:
 
+* ``'fixer'``: https://fixer.io/
 * ``'openexchangerates'``: https://openexchangerates.org/
 * ``'yahoo'``: http://finance.yahoo.com/currency-converter/
 
