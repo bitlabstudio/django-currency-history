@@ -18,10 +18,7 @@ class TrackCurrencyRatesTestCase(TestCase):
     def test_command(self, mock):
         resp = Response()
         resp._content = (
-            '{"query":{"count":1,"created":"2016-04-30T07:59:29Z",'
-            '"lang":"en-US","results":{"rate":{"id":"USDEUR","Name":"USD/EUR",'
-            '"Rate":"0.8736","Date":"4/30/2016","Time":"2:59am","Ask":"0.8737"'
-            ',"Bid":"0.8736"}}}}')
+            '{"base": "USD","date": "2017-08-29","rates": {"EUR": 0.83001}}')
         mock.return_value = resp
 
         call_command('track_currency_rates')

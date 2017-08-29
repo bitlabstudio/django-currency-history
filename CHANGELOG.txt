@@ -2,6 +2,7 @@
 
 - removed unnecessary files
 - added fixer.io support
+- added option to define a rate as fixed
 
 === 0.2 ===
 

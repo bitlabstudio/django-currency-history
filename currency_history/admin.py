@@ -5,7 +5,7 @@ from . import models
 
 
 class CurrencyRateHistoryAdmin(admin.ModelAdmin):
-    list_display = ['rate', 'value', 'date', 'tracked_by']
+    list_display = ['rate', 'value', 'date', 'tracked_by', 'fixed']
     list_filter = ['tracked_by']
 
 

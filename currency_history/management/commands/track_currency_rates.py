@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 )
             print('{} rate(s) tracked using "openexchangerates.org".'.format(
                 rates.count()))
-        elif settings.CURRENCY_SERVICE == 'yahoo':
+        elif settings.CURRENCY_SERVICE == 'yahoo':  # pragma: nocover
             for rate in rates:
                 url = ('https://query.yahooapis.com/v1/public/yql?q=select'
                        '%20*%20from%20yahoo.finance.xchange%20where%20pair'

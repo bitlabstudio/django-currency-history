@@ -32,3 +32,8 @@ class CurrencyRateHistoryTestCase(TestCase):
 
     def test_model(self):
         self.assertTrue(str(self.history))
+
+    def test_save(self):
+        mixer.blend('currency_history.CurrencyRateHistory',
+                    fixed=True, rate=self.history.rate)
+        self.history.save()
