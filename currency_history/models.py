@@ -52,6 +52,7 @@ class CurrencyRate(models.Model):
 
     :from_currency: Currency to convert.
     :to_currency: Currency to be converted to.
+    :fixed_rate: Optional fixed rate.
 
     """
     from_currency = models.ForeignKey(
@@ -64,6 +65,11 @@ class CurrencyRate(models.Model):
         Currency,
         verbose_name=_('To currency'),
         related_name='rates_to',
+    )
+
+    fixed_rate = models.FloatField(
+        verbose_name=_('Fixed rate'),
+        blank=True, null=True,
     )
 
     class Meta:
@@ -90,7 +96,6 @@ class CurrencyRateHistory(models.Model):
     :date: Date the status was tracked.
     :value: Value of the second currency in relation to the first.
     :tracked_by: Field to track a service or user who added the history.
-    :fixed: Marks a fixed rate.
 
     """
     rate = models.ForeignKey(
@@ -115,11 +120,6 @@ class CurrencyRateHistory(models.Model):
         default=_('Add your email'),
     )
 
-    fixed = models.BooleanField(
-        verbose_name=_('Fixed'),
-        default=False,
-    )
-
     class Meta:
         ordering = ['-date', 'rate__to_currency__iso_code']
         verbose_name = _('Currency rate history')
@@ -127,9 +127,3 @@ class CurrencyRateHistory(models.Model):
 
     def __str__(self):
         return u'{} / {}'.format(self.rate, self.date)
-
-    def save(self, *args, **kwargs):
-        if self.fixed:
-            CurrencyRateHistory.objects.filter(
-                rate=self.rate, fixed=True).update(fixed=False)
-        super(CurrencyRateHistory, self).save(*args, **kwargs)
