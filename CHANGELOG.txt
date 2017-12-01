@@ -1,5 +1,6 @@
 === ongoing (0.2.x) ===
 
+- added currencylayer support
 - removed unnecessary files
 - added fixer.io support
 - added option to define a rate as fixed

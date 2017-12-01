@@ -24,9 +24,11 @@ class TrackCurrencyRatesTestCase(TestCase):
         call_command('track_currency_rates')
         self.assertEqual(CurrencyRateHistory.objects.count(), 0)
 
-        mixer.blend('currency_history.CurrencyRate',
-                    from_currency__iso_code='USD',
-                    to_currency__iso_code='EUR')
+        eur = mixer.blend('currency_history.Currency', iso_code='EUR')
+        usd = mixer.blend('currency_history.Currency', iso_code='USD')
+        sgd = mixer.blend('currency_history.Currency', iso_code='SGD')
+        rate = mixer.blend('currency_history.CurrencyRate',
+                           from_currency=usd, to_currency=eur)
 
         with self.settings(CURRENCY_SERVICE=None):
             with self.assertRaises(ImproperlyConfigured):
@@ -132,4 +134,34 @@ class TrackCurrencyRatesTestCase(TestCase):
 
         with self.settings(CURRENCY_SERVICE='openexchangerates'):
             # Don't forget to add your App ID to your local settings
+            call_command('track_currency_rates')
+
+        with self.settings(CURRENCY_SERVICE='currencylayer'):
+            # Don't forget to add your API key to your local settings
+            resp._content = (
+                '{"success":true,"terms":"https:\\/\\/currencylayer.com\\/'
+                'terms","privacy":"https:\\/\\/currencylayer.com\\/privacy",'
+                '"timestamp":1512166746,"source":"USD","quotes":{"USDEUR":'
+                '0.840204}}')
+            mock.return_value = resp
+            call_command('track_currency_rates')
+            rate.delete()
+            rate = mixer.blend('currency_history.CurrencyRate',
+                               from_currency=eur, to_currency=usd)
+            resp._content = (
+                '{"success":true,"terms":"https:\\/\\/currencylayer.com\\/'
+                'terms","privacy":"https:\\/\\/currencylayer.com\\/privacy",'
+                '"timestamp":1512166746,"source":"USD","quotes":{"USDEUR":'
+                '0.840204}}')
+            mock.return_value = resp
+            call_command('track_currency_rates')
+            rate.delete()
+            mixer.blend('currency_history.CurrencyRate',
+                        from_currency=eur, to_currency=sgd)
+            resp._content = (
+                '{"success":true,"terms":"https:\\/\\/currencylayer.com\\/'
+                'terms","privacy":"https:\\/\\/currencylayer.com\\/privacy",'
+                '"timestamp":1512166746,"source":"USD","quotes":{"USDSGD":'
+                '1.34555,"USDEUR":0.840204}}')
+            mock.return_value = resp
             call_command('track_currency_rates')

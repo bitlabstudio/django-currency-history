@@ -67,6 +67,36 @@ class Command(BaseCommand):
                     tracked_by='fixer.io',
                 )
             print('{} rate(s) tracked using "fixer.io".'.format(rates.count()))
+        elif settings.CURRENCY_SERVICE == 'currencylayer':
+            url = 'http://apilayer.net/api/live?access_key={}&'.format(
+                settings.CURRENCYLAYER_API_KEY)
+            for rate in rates:
+                response = requests.get(url + 'currencies={},{}'.format(
+                    rate.from_currency.iso_code,
+                    rate.to_currency.iso_code,
+                ))
+                result = loads(response.content)
+                if len(result['quotes'].keys()) == 1:
+                    value = result['quotes'].get(
+                        '{}{}'.format(rate.from_currency.iso_code,
+                                      rate.to_currency.iso_code))
+                    if not value:
+                        value = 1 / result['quotes'].get(
+                            '{}{}'.format(rate.to_currency.iso_code,
+                                          rate.from_currency.iso_code))
+                else:
+                    from_value = result['quotes'].get('USD{}'.format(
+                        rate.from_currency.iso_code))
+                    to_value = result['quotes'].get('USD{}'.format(
+                        rate.to_currency.iso_code))
+                    value = to_value / from_value
+                models.CurrencyRateHistory.objects.create(
+                    rate=rate,
+                    value=value,
+                    tracked_by='currencylayer',
+                )
+            print('{} rate(s) tracked using "currencylayer".'.format(
+                rates.count()))
         if getattr(settings, 'CURRENCY_EMAIL_REPORT', False):
             send_email(
                 None,
